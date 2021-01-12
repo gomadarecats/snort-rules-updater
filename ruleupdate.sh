@@ -5,9 +5,9 @@ curl -s https://www.snort.org/downloads/community/md5s |\
   > /etc/snort/rules/md5_new
 
 res=`diff /etc/snort/rules/md5_cur /etc/snort/rules/md5_new |\
-  wc -l`
+  wc -l` 
 
-if [$res = 0]; then
+if [ $res = 0 ]; then
   echo -e "\n=== snort rules updater ===\n`date`\nno update" >> /var/log/snort/updater
 else
   wget -P /var/tmp/ https://www.snort.org/downloads/community/community-rules.tar.gz
@@ -15,5 +15,6 @@ else
   mv -f /var/tmp/community-rules/community.rules /etc/snort/rules
   rm -rf /var/tmp/community-rules*
   echo -e "\n=== snort rules updater ===\n`date`\nupdated" >> /var/log/snort/updater
+  cp -f /etc/snort/rules/md5_new /etc/snort/rules/md5_cur
 fi
 
